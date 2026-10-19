@@ -1,6 +1,6 @@
 # LiDAR + Aerial Imagery: A Tiny Multimodal ML Demo
 
-An interview-friendly, beginner-sized portfolio project demonstrating how two data sources can be combined to classify simplified infrastructure-scene objects.
+A project demonstrating how two data sources can be combined to classify simplified infrastructure-scene objects.
 
 **Important:** This project uses **synthetic features**, not real LiDAR scans or aerial photographs. It is an educational proof of concept for multimodal feature fusion, not a production-ready infrastructure model.
 
@@ -25,10 +25,10 @@ Each sample represents an already-cropped object. This deliberately keeps the pr
 
 ## Feature design
 
-| Modality | Example features | What they approximate |
-|---|---|---|
-| LiDAR-like geometry | height, width, verticality, roughness, point density | Shape and spatial structure |
-| Image-like appearance | greenness, brightness, texture | Visual appearance from an aligned image crop |
+| Modality              | Example features                                     | What they approximate                        |
+| --------------------- | ---------------------------------------------------- | -------------------------------------------- |
+| LiDAR-like geometry   | height, width, verticality, roughness, point density | Shape and spatial structure                  |
+| Image-like appearance | greenness, brightness, texture                       | Visual appearance from an aligned image crop |
 
 In a real system, features from both sources would need to be spatially aligned and quality-checked before fusion.
 
@@ -38,7 +38,7 @@ Python 3.10+ recommended.
 
 ```bash
 python -m venv .venv
-source .venv/bin/activate       # Windows: .venv\Scripts\activate
+source .venv/bin/activate
 pip install -r requirements.txt
 python src/train.py
 ```
@@ -68,25 +68,6 @@ neara-multimodal-ml-demo/
 5. Compare accuracy and weighted F1 on the same held-out test set.
 
 The synthetic distributions are intentionally imperfect, so the experiment is useful for practising the pipeline. Results are not evidence of real-world performance, and feature fusion is not guaranteed to improve metrics on every run or dataset.
-
-## Interview talking points
-
-**Why multimodal?** Geometry can describe shape and spatial structure, while imagery can provide colour and texture. The sources may complement each other when one is ambiguous.
-
-**What is early fusion?** Concatenate features from both modalities before training a single model.
-
-**What would you change for real data?**
-- Read point clouds with a library such as Open3D.
-- Define object-level crops or segmentation labels.
-- Align imagery and LiDAR using camera calibration, timestamps and coordinate transforms.
-- Handle missing modalities and mismatched resolutions.
-- Compare simple baselines with point-cloud networks and image encoders.
-- Evaluate per-class precision/recall, calibration, geographic generalisation and measurement error.
-- Prevent data leakage by splitting by site or acquisition region, not just randomly by object.
-
-**Limitations:** This project uses engineered synthetic features and a tabular classifier. It does not train a foundation model, process raw point clouds, fuse raw images, estimate conductor clearance, or establish engineering safety.
-
-## Tests
 
 ```bash
 pytest
